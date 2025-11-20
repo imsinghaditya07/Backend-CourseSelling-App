@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const {courseRouter} = require('./Routes/courses')
@@ -14,7 +15,7 @@ app.use('/api/v1/courses', courseRouter)
 
 
 async function main () {
-    await mongoose.connect('mongodb+srv://Rauneetsingh:qXQ9Mjzd4zo6j6tn@cluster0.zlc1jqd.mongodb.net/course-app')
+    await mongoose.connect(process.env.MONGO_URL)
     console.log("Connected to DB")
     app.listen(3000) 
 }

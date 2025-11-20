@@ -1,5 +1,5 @@
-const JWT_USER_PASS = "123422f";
-const JWT_ADMIN_PASS = 'jwetqwfc';
+const JWT_USER_PASS = process.env.JWT_USER_PASS;
+const JWT_ADMIN_PASS = process.env.JWT_ADMIN_PASS;
 
 module.exports = {
     JWT_USER_PASS,
