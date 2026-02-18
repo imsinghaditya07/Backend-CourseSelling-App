@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { userAPI } from '../utils/api';
 import CourseCard from '../components/CourseCard';
+import { GraduationCap, BookOpen, Search } from 'lucide-react';
 import './Courses.css';
 
 const MyCourses = () => {
@@ -50,21 +51,23 @@ const MyCourses = () => {
     <div className="courses-page">
       <div className="container">
         <div className="page-header fade-in">
-          <h1>My Courses</h1>
-          <p>Continue your learning journey</p>
+          <h1>My Learning</h1>
+          <p>Access your purchased courses and continue learning</p>
         </div>
 
         {purchases.length === 0 ? (
           <div className="empty-state card">
-            <div className="empty-icon">🎓</div>
+            <div className="empty-icon">
+              <GraduationCap size={64} strokeWidth={1} />
+            </div>
             <h3>No Courses Yet</h3>
             <p>Start learning by purchasing your first course!</p>
-            <a href="/courses" className="btn btn-primary mt-3">
-              Browse Courses
+            <a href="/courses" className="btn btn-primary mt-3" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              <Search size={18} /> Browse Courses
             </a>
           </div>
         ) : (
-          <div className="courses-grid grid grid-3">
+          <div className="courses-grid">
             {purchases.map((purchase) => (
               <CourseCard 
                 key={purchase._id} 
