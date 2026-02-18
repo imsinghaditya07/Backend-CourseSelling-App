@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { adminAPI } from '../utils/api';
 import CourseCard from '../components/CourseCard';
+import { PlusCircle, PackageOpen, LayoutDashboard } from 'lucide-react';
 import './Courses.css';
 
 const AdminCourses = () => {
@@ -56,30 +57,34 @@ const AdminCourses = () => {
     <div className="courses-page">
       <div className="container">
         <div className="page-header fade-in">
-          <h1>My Courses</h1>
-          <p>Manage your course catalog</p>
+          <h1>Instructor Dashboard</h1>
+          <p>Manage your course catalog and student progress</p>
           <button 
             className="btn btn-primary mt-3"
             onClick={() => navigate('/admin/create')}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
           >
-            + Create New Course
+            <PlusCircle size={18} /> Create New Course
           </button>
         </div>
 
         {courses.length === 0 ? (
           <div className="empty-state card">
-            <div className="empty-icon">📝</div>
+            <div className="empty-icon">
+              <PackageOpen size={64} strokeWidth={1} />
+            </div>
             <h3>No Courses Created</h3>
             <p>Start by creating your first course!</p>
             <button 
               className="btn btn-primary mt-3"
               onClick={() => navigate('/admin/create')}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
             >
-              Create Course
+             <PlusCircle size={18} /> Create Course
             </button>
           </div>
         ) : (
-          <div className="courses-grid grid grid-3">
+          <div className="courses-grid">
             {courses.map((course) => (
               <CourseCard 
                 key={course._id} 
