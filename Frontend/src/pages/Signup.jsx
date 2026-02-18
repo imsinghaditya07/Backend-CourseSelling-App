@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { userAPI, adminAPI } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
+import { Mail, Lock, User, LayoutDashboard, UserPlus, AlertCircle, ArrowRight } from 'lucide-react';
 import './Auth.css';
 
 const Signup = () => {
@@ -47,35 +48,38 @@ const Signup = () => {
 
   return (
     <div className="auth-page">
-      <div className="container">
-        <div className="auth-container fade-in">
-          <div className="auth-card card">
-            <div className="auth-header">
-              <h2>Create Account</h2>
-              <p>Join CourseHub and start your learning journey</p>
+      <div className="auth-container fade-in">
+        <div className="auth-card">
+          <div className="auth-header">
+            <div className="auth-logo">
+              <UserPlus size={28} />
             </div>
+            <h2>Create Account</h2>
+            <p>Join CourseHub and start your learning journey</p>
+          </div>
 
-            <div className="user-type-toggle">
-              <button
-                className={`toggle-btn ${!isAdmin ? 'active' : ''}`}
-                onClick={() => setIsAdmin(false)}
-                type="button"
-              >
-                Student
-              </button>
-              <button
-                className={`toggle-btn ${isAdmin ? 'active' : ''}`}
-                onClick={() => setIsAdmin(true)}
-                type="button"
-              >
-                Instructor
-              </button>
-            </div>
+          <div className="user-type-toggle">
+            <button
+              className={`toggle-btn ${!isAdmin ? 'active' : ''}`}
+              onClick={() => setIsAdmin(false)}
+              type="button"
+            >
+              <User size={16} /> Student
+            </button>
+            <button
+              className={`toggle-btn ${isAdmin ? 'active' : ''}`}
+              onClick={() => setIsAdmin(true)}
+              type="button"
+            >
+              <LayoutDashboard size={16} /> Instructor
+            </button>
+          </div>
 
-            <form onSubmit={handleSubmit} className="auth-form">
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">First Name</label>
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">First Name</label>
+                <div className="input-wrapper">
                   <input
                     type="text"
                     name="firstName"
@@ -85,10 +89,13 @@ const Signup = () => {
                     onChange={handleChange}
                     required
                   />
+                  <User size={18} className="input-icon" style={{ left: '12px', position: 'absolute' }} />
                 </div>
+              </div>
 
-                <div className="form-group">
-                  <label className="form-label">Last Name</label>
+              <div className="form-group">
+                <label className="form-label">Last Name</label>
+                <div className="input-wrapper">
                   <input
                     type="text"
                     name="lastName"
@@ -98,11 +105,14 @@ const Signup = () => {
                     onChange={handleChange}
                     required
                   />
+                  <User size={18} className="input-icon" style={{ left: '12px', position: 'absolute' }} />
                 </div>
               </div>
+            </div>
 
-              <div className="form-group">
-                <label className="form-label">Email</label>
+            <div className="form-group">
+              <label className="form-label">Email Address</label>
+              <div className="input-wrapper">
                 <input
                   type="email"
                   name="email"
@@ -112,36 +122,47 @@ const Signup = () => {
                   onChange={handleChange}
                   required
                 />
+                <Mail size={18} className="input-icon" style={{ left: '12px', position: 'absolute' }} />
               </div>
+            </div>
 
-              <div className="form-group">
-                <label className="form-label">Password</label>
+            <div className="form-group">
+              <label className="form-label">Password</label>
+              <div className="input-wrapper">
                 <input
                   type="password"
                   name="password"
                   className="form-input"
-                  placeholder="Min 6 characters, 1 uppercase"
+                  placeholder="Create a strong password"
                   value={formData.password}
                   onChange={handleChange}
                   required
                   minLength={6}
                 />
-                <small className="form-hint">
-                  Must be at least 6 characters with 1 uppercase letter
-                </small>
+                <Lock size={18} className="input-icon" style={{ left: '12px', position: 'absolute' }} />
               </div>
-
-              {error && <div className="form-error">{error}</div>}
-
-              <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
-                {loading ? 'Creating Account...' : 'Sign Up'}
-              </button>
-            </form>
-
-            <div className="auth-footer">
-              Already have an account? <Link to="/signin">Sign In</Link>
+              <small className="form-hint">
+                Must be at least 6 characters with 1 uppercase letter
+              </small>
             </div>
-          </div>
+
+            {error && (
+              <div className="form-error">
+                <AlertCircle size={18} />
+                <span>{error}</span>
+              </div>
+            )}
+
+            <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+              {loading ? 'Creating Account...' : (
+                <>Sign Up <ArrowRight size={18} style={{ marginLeft: '8px' }} /></>
+              )}
+            </button>
+          </form>
+
+          <footer className="auth-footer">
+            Already have an account? <Link to="/signin">Sign In</Link>
+          </footer>
         </div>
       </div>
     </div>
