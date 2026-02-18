@@ -8,6 +8,7 @@ import Courses from './pages/Courses';
 import MyCourses from './pages/MyCourses';
 import AdminCourses from './pages/AdminCourses';
 import CourseForm from './pages/CourseForm';
+import CourseDetail from './pages/CourseDetail';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, adminOnly = false }) => {
@@ -42,6 +43,7 @@ function AppContent() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/courses" element={<Courses />} />
+          <Route path="/course/:id" element={<CourseDetail />} />
           
           {/* User Protected Routes */}
           <Route 
