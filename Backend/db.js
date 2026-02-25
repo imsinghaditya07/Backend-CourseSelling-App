@@ -10,7 +10,13 @@ if (supabaseUrl && supabaseKey) {
 } else {
     console.warn("⚠️ Warning: Supabase Environment variables are missing")
     // Creating a dummy client strictly for preventing application crash without env config
-    supabase = null
+    supabase = {
+        from: () => ({
+            select: () => ({ eq: () => ({ single: () => ({ data: null, error: 'Database not connected' }) }) }),
+            insert: () => ({ select: () => ({ single: () => ({ data: null, error: 'Database not connected' }) }), error: 'Database not connected' }),
+            update: () => ({ eq: () => ({ eq: () => ({ select: () => ({ single: () => ({ data: null, error: 'Database not connected' }) }) }) }) })
+        })
+    };
 }
 
 module.exports = {
