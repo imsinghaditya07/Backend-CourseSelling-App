@@ -1,8 +1,8 @@
 const { Router } = require("express");
 const userRouter = Router();
-const { userModel, purchaseModel } = require('../db')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const { supabase } = require('../db');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const { z } = require("zod");
 const { middlewareUser } = require("../middleware/user");
@@ -11,8 +11,16 @@ const { middlewareUser } = require("../middleware/user");
 
 userRouter.get("/purchases", middlewareUser, async (req, res) => {
   const userId = req.userId
-  const purchases = await purchaseModel.find({
-    userId
+  const { data: purchases, error } = await supabase.from('purchase').select(`
+    *,
+    course:courseId (*)
+  `).eq('userId', userId)
+
+  if (error) {
+    return res.status(500).json({ message: "Database Error" })
+  }
+  res.json({
+    purchases
   })
 })
 // Signup
@@ -29,19 +37,26 @@ userRouter.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "Invalid Request Body" })
     }
     const { email, password, lastName, firstName } = req.body
-    const existingUser = await userModel.findOne({ email })
+
+    // Check if user exists
+    const { data: existingUser } = await supabase.from('user').select('email').eq('email', email).single()
     if (existingUser) {
       return res.status(403).json({ message: "User already exists" });
     }
     const salt = await bcrypt.genSalt(10)
     const hashed = await bcrypt.hash(password, salt);
 
-    await userModel.create({
+    const { error } = await supabase.from('user').insert([{
       email,
       password: hashed,
       lastName,
       firstName
-    })
+    }])
+
+    if (error) {
+      console.error(error)
+      return res.status(500).json({ message: "Database Error" })
+    }
     res.status(201).json({ message: "User Register Sucessfully" })
 
   } catch (err) {
@@ -64,9 +79,10 @@ userRouter.post("/signin", async (req, res) => {
   // Destructuring email and password from req.body
   const { email, password } = req.body
   // Finding User
-  const user = await userModel.findOne({ email })
+  const { data: user, error } = await supabase.from('user').select('*').eq('email', email).single()
+
   // If user doesn't exist OR password doesn't match, send ONE generic error
-  if (!user)
+  if (error || !user)
     return res.status(404).json({ message: "Invalid Email Or Password" })
 
   const passcheck = await bcrypt.compare(password, user.password)
@@ -77,10 +93,8 @@ userRouter.post("/signin", async (req, res) => {
 
   if (user) {
     const token = jwt.sign({
-      id: user._id, email: email
+      id: user.id, email: email
     }, process.env.JWT_USER_PASS, { expiresIn: '1h' })
-
-
 
     res.json({
       token: token
@@ -89,9 +103,6 @@ userRouter.post("/signin", async (req, res) => {
   } else {
     res.status(403).json({ message: "Incorrect Credential" })
   }
-
-  res.status(201).json({ message: "loggined" })
-
 
 })
 

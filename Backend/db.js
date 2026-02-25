@@ -1,43 +1,18 @@
-const mongoose = require('mongoose')
+const { createClient } = require('@supabase/supabase-js')
 
-const Schema = mongoose.Schema
-const ObjectId = mongoose.Types.ObjectId
+const supabaseUrl = process.env.SUPABASE_URL
+const supabaseKey = process.env.SUPABASE_ANON_KEY
 
-const userSchema = new Schema({
-    email: { type: String, unique: true },
-    password: String,
-    firstName: String,
-    lastName: String,
-})
-const adminSchema = new Schema({
-    email: { type: String, unique: true },
-    password: String,
-    firstName: String,
-    lastName: String,
-})
-const courseSchema = new Schema({
-    title: String,
-    description: String,
-    price: Number,
-    imageUrl: String,
-    creatorId: ObjectId, // FIXME: Missing 'ref: "admin"' to enable population
+let supabase;
 
-
-})
-const purchaseSchema = new Schema({
-    userId: ObjectId, // FIXME: Missing 'ref: "user"'
-    courseId: ObjectId, // FIXME: Missing 'ref: "course"'
-
-})
-
-const userModel = mongoose.model('user', userSchema)
-const adminModel = mongoose.model('admin', adminSchema)
-const purchaseModel = mongoose.model('purchase', purchaseSchema)
-const courseModel = mongoose.model('course', courseSchema)
+if (supabaseUrl && supabaseKey) {
+    supabase = createClient(supabaseUrl, supabaseKey)
+} else {
+    console.warn("⚠️ Warning: Supabase Environment variables are missing")
+    // Creating a dummy client strictly for preventing application crash without env config
+    supabase = null
+}
 
 module.exports = {
-    userModel,
-    adminModel,
-    purchaseModel,
-    courseModel
+    supabase
 }

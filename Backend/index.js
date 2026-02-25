@@ -1,7 +1,6 @@
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
-const mongoose = require('mongoose')
 const { courseRouter } = require('./Routes/courses')
 const { userRouter } = require('./Routes/user')
 const { adminRouter } = require('./Routes/admin')
@@ -17,8 +16,7 @@ app.use('/api/v1/courses', courseRouter)
 
 
 async function main() {
-    await mongoose.connect(process.env.MONGO_URL)
-    console.log("Connected to DB")
+    console.log("Connected")
     app.listen(3000)
 }
 
