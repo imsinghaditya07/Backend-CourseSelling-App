@@ -5,7 +5,7 @@ const { JWT_USER_PASS } = require("../config")
 function middlewareUser(req, res, next) {
     const token = req.headers.token
     if (!token) {
-        return res.status(403).json({ message: "Token not found" })
+        return res.status(403).json({ success: false, message: "Token not found" })
     }
     try {
         const decoded = jwt.verify(token, JWT_USER_PASS)
@@ -14,10 +14,10 @@ function middlewareUser(req, res, next) {
             req.userId = decoded.id
             next()
         } else {
-            res.status(403).json({ message: "User Access Only" })
+            res.status(403).json({ success: false, message: "User Access Only" })
         }
     } catch (err) {
-        res.status(403).json({ message: "User Access Only / Invalid Token" })
+        res.status(403).json({ success: false, message: "User Access Only / Invalid Token" })
     }
 
 }
