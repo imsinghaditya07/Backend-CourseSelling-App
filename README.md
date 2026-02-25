@@ -63,7 +63,7 @@ Backend_course_app/
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/Rauneet-coder/Backend-CourseSelling-App.git
+git clone https://github.com/imsinghaditya07/Backend-CourseSelling-App.git
 cd Backend-CourseSelling-App
 ```
 
@@ -262,8 +262,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 👨‍💻 Author
 
-**Rauneet Singh**
-- GitHub: [@Rauneet-coder](https://github.com/Rauneet-coder)
+**Aditya Singh**
+- GitHub: [@imsinghaditya07](https://github.com/imsinghaditya07)
 
 ## 🙏 Acknowledgments
 
@@ -279,4 +279,4 @@ If you have any questions or run into issues, please open an issue on GitHub.
 
 **Happy Learning! 🚀**
 
-Made with ❤️ by Rauneet Singh
+Made with ❤️ by Aditya Singh
