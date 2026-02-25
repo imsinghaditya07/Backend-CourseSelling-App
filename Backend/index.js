@@ -14,10 +14,18 @@ app.use('/api/v1/user', userRouter)
 app.use('/api/v1/admin', adminRouter)
 app.use('/api/v1/courses', courseRouter)
 
+// Healthcheck Route
+app.get('/api/v1/health', (req, res) => {
+    res.status(200).json({ status: 'OK', message: 'CourseHub API is running smoothly' });
+});
+
+const PORT = process.env.PORT || 3000;
 
 async function main() {
-    console.log("Connected")
-    app.listen(3000)
+    console.log(`Server connected and starting on port ${PORT}...`)
+    app.listen(PORT, () => {
+        console.log(`CourseHub API listening on http://localhost:${PORT}`);
+    })
 }
 
 main()
