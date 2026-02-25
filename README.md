@@ -229,10 +229,10 @@ Course management interface for instructors
 ## 🐛 Known Issues & Roadmap
 
 ### Current Issues (Backend)
-- [ ] Missing `await` in admin signin password check
-- [ ] Missing try-catch in middleware (can crash server)
-- [ ] Missing response in `/purchase` endpoint
-- [ ] Header access should be `req.headers.token`
+- [x] Missing `await` in admin signin password check
+- [x] Missing try-catch in middleware (can crash server)
+- [x] Missing response in `/purchase` endpoint
+- [x] Header access should be `req.headers.token`
 
 ### Future Enhancements
 - [ ] Course categories and filtering
